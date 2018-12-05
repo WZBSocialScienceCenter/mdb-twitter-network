@@ -11,7 +11,7 @@ library(dplyr)
 # abgerufen von https://www.abgeordnetenwatch.de/api/parliament/bundestag/deputies.json
 deputies <- fromJSON('data/deputies.json')
 
-sleep_sec <- 1
+sleep_sec <- 10  # nach robots.txt
 
 # Profil URLs
 prof_urls <- deputies$profiles$meta %>% select(uuid, url)

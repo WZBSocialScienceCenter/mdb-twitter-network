@@ -1,6 +1,6 @@
 # Scraper für "Weiterführende Links" von MdB Profilen auf abgeordnetenwatch.de.
 #
-# Nov. 2018, Markus Konrad <markus.konrad@wzb.eu>
+# Dez. 2018, Markus Konrad <markus.konrad@wzb.eu>
 #
 
 library(jsonlite)

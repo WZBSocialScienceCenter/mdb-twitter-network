@@ -18,9 +18,11 @@ friends_ids <- unique(friends$user_id)
 
 n_friends_ids <- length(friends_ids)
 
-sleep_sec <- 15 * 60  # 15 minutes is the time window for rate limit reset
-chunksize <- 50000    # the docs say 90,000 is alright, but we have ~98,000 so it's two chunks anyway
+n_retries <- 5
+sleep_sec <- 30 * 60  # 15 minutes is the time window for rate limit reset
+chunksize <- 10000    # the docs say 90,000 is alright, but we have ~98,000 so it's two chunks anyway
 chunk_idx <- 0
+cur_retry <- 0
 friendsdata <- data_frame()
 
 print('fetching data from Twitter API...')
@@ -31,17 +33,38 @@ while(TRUE) {
     friends_ids_chunk <- friends_ids[chunk_start:chunk_end]
     print(sprintf('fetching data for friends IDs in range [%d, %d] (%d ids)', chunk_start, chunk_end, length(friends_ids_chunk)))
     
-    friendsdata_chunk <- lookup_users(friends_ids_chunk)
-    friendsdata <- bind_rows(friendsdata, friendsdata_chunk)
     
-    if (chunk_start + chunksize > n_friends_ids) {
-        break()
+    success <- tryCatch({
+        friendsdata_chunk <- lookup_users(friends_ids_chunk)
+        friendsdata <- bind_rows(friendsdata, friendsdata_chunk)
+        TRUE
+    }, error = function(cond) {
+        FALSE
+    })
+    
+    if (success) {
+        cur_retry <- 0
+        
+        if (chunk_start + chunksize > n_friends_ids) {
+            break()
+        }
+    } else {
+        cur_retry <- cur_retry + 1
+        
+        if (cur_retry >= n_retries) {
+            print(sprintf('failed after %d retries', cur_retry))
+            break()
+        }
+        
+        print(sprintf('will advance with retry %d', cur_retry))
     }
     
     print(sprintf('waiting for %d sec.', sleep_sec))
     Sys.sleep(sleep_sec)
     
-    chunk_idx <- chunk_idx + 1
+    if (success) {
+        chunk_idx <- chunk_idx + 1
+    }
 }
 
 n_fetched <- sum(!is.na(friendsdata$screen_name))

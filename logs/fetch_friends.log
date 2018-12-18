@@ -38,7 +38,7 @@ The following objects are masked from ‘package:base’:
 +                 colClasses = c(personal.location.postal_code = "character"))
 > 
 > mdb <- mdb %>% filter(!is.na(twitter_name)) %>%
-+   select(personal.first_name, personal.last_name, personal.gender, personal.birthyear, party, twitter_name, twitter_url) %>%
++   select(personal.first_name, personal.last_name, personal.gender, personal.birthyear, party, twitter_name) %>%
 +   mutate(personal.gender = as.factor(personal.gender),
 +          party = as.factor(party))
 > 
@@ -53,10 +53,9 @@ The following objects are masked from ‘package:base’:
 > n_twitternames <- length(twitternames)
 > 
 > print(paste('will fetch list of friends for', n_twitternames, 'users'))
-[1] "will fetch list of friends for 413 users"
+[1] "will fetch list of friends for 395 users"
 > 
 > friends <- get_friends(twitternames, retryonratelimit = TRUE)
-Waiting about 6.1 minutes for rate limit reset...
 1 friend networks collected!
 2 friend networks collected!
 3 friend networks collected!
@@ -74,6 +73,7 @@ Warning: ^^ warning regarding user: detlevpilger
 13 friend networks collected!
 14 friend networks collected!
 15 friend networks collected!
+Waiting about 14.9 minutes for rate limit reset...
 16 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
 Warning: ^^ warning regarding user: spduesseldorf
@@ -83,7 +83,6 @@ Warning: ^^ warning regarding user: spduesseldorf
 20 friend networks collected!
 21 friend networks collected!
 22 friend networks collected!
-Waiting about 14.9 minutes for rate limit reset...
 23 friend networks collected!
 24 friend networks collected!
 25 friend networks collected!
@@ -92,6 +91,7 @@ Waiting about 14.9 minutes for rate limit reset...
 28 friend networks collected!
 29 friend networks collected!
 30 friend networks collected!
+Waiting about 14.9 minutes for rate limit reset...
 31 friend networks collected!
 32 friend networks collected!
 33 friend networks collected!
@@ -100,17 +100,17 @@ Waiting about 14.9 minutes for rate limit reset...
 36 friend networks collected!
 37 friend networks collected!
 38 friend networks collected!
-39 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: BuettnerSDL
+Warning: ^^ warning regarding user: buettnersdl
+39 friend networks collected!
 40 friend networks collected!
 41 friend networks collected!
 42 friend networks collected!
 43 friend networks collected!
 44 friend networks collected!
 45 friend networks collected!
-46 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+46 friend networks collected!
 47 friend networks collected!
 48 friend networks collected!
 49 friend networks collected!
@@ -125,32 +125,32 @@ Waiting about 14.9 minutes for rate limit reset...
 58 friend networks collected!
 59 friend networks collected!
 60 friend networks collected!
-61 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+61 friend networks collected!
 62 friend networks collected!
 63 friend networks collected!
 64 friend networks collected!
-65 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: WeeserSandra
+Warning: ^^ warning regarding user: weesersandra
+65 friend networks collected!
 66 friend networks collected!
 67 friend networks collected!
 68 friend networks collected!
-69 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
 Warning: ^^ warning regarding user: protschkastepha
+69 friend networks collected!
 70 friend networks collected!
 71 friend networks collected!
 72 friend networks collected!
 73 friend networks collected!
 74 friend networks collected!
 75 friend networks collected!
-76 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+76 friend networks collected!
 77 friend networks collected!
-78 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
 Warning: ^^ warning regarding user: doris_achelwilm
+78 friend networks collected!
 79 friend networks collected!
 80 friend networks collected!
 81 friend networks collected!
@@ -163,26 +163,26 @@ Warning: ^^ warning regarding user: doris_achelwilm
 88 friend networks collected!
 89 friend networks collected!
 90 friend networks collected!
-91 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+91 friend networks collected!
 92 friend networks collected!
 93 friend networks collected!
 94 friend networks collected!
 95 friend networks collected!
 96 friend networks collected!
 97 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: reutherbernd
 98 friend networks collected!
 99 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: ReutherBernd
 100 friend networks collected!
 101 friend networks collected!
 102 friend networks collected!
 103 friend networks collected!
 104 friend networks collected!
 105 friend networks collected!
-106 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+106 friend networks collected!
 107 friend networks collected!
 108 friend networks collected!
 109 friend networks collected!
@@ -197,46 +197,46 @@ Waiting about 14.9 minutes for rate limit reset...
 118 friend networks collected!
 119 friend networks collected!
 120 friend networks collected!
-121 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+121 friend networks collected!
 122 friend networks collected!
 123 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: manfred_grund
 124 friend networks collected!
 125 friend networks collected!
 126 friend networks collected!
 127 friend networks collected!
 Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: manfred_grund
+Warning: ^^ warning regarding user: jojoschraps
 128 friend networks collected!
 129 friend networks collected!
 130 friend networks collected!
 131 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: jojoschraps
 132 friend networks collected!
 133 friend networks collected!
 134 friend networks collected!
 135 friend networks collected!
-136 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+136 friend networks collected!
 137 friend networks collected!
 138 friend networks collected!
 139 friend networks collected!
 140 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: eckhardtrehberg
 141 friend networks collected!
 142 friend networks collected!
 143 friend networks collected!
 144 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: EckhardtRehberg
 145 friend networks collected!
 146 friend networks collected!
 147 friend networks collected!
 148 friend networks collected!
 149 friend networks collected!
 150 friend networks collected!
-151 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+151 friend networks collected!
 152 friend networks collected!
 153 friend networks collected!
 154 friend networks collected!
@@ -251,8 +251,8 @@ Waiting about 14.9 minutes for rate limit reset...
 163 friend networks collected!
 164 friend networks collected!
 165 friend networks collected!
-166 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+166 friend networks collected!
 167 friend networks collected!
 168 friend networks collected!
 169 friend networks collected!
@@ -262,15 +262,15 @@ Waiting about 14.9 minutes for rate limit reset...
 173 friend networks collected!
 174 friend networks collected!
 175 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: goekayakbulut
 176 friend networks collected!
 177 friend networks collected!
 178 friend networks collected!
 179 friend networks collected!
 180 friend networks collected!
-181 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: goekayakbulut
+181 friend networks collected!
 182 friend networks collected!
 183 friend networks collected!
 184 friend networks collected!
@@ -285,44 +285,44 @@ Warning: ^^ warning regarding user: goekayakbulut
 193 friend networks collected!
 194 friend networks collected!
 195 friend networks collected!
-196 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+196 friend networks collected!
 197 friend networks collected!
 198 friend networks collected!
 199 friend networks collected!
 200 friend networks collected!
 201 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: springerren
 202 friend networks collected!
 203 friend networks collected!
 204 friend networks collected!
 205 friend networks collected!
 206 friend networks collected!
 207 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: springerren
 208 friend networks collected!
 209 friend networks collected!
 210 friend networks collected!
-211 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+211 friend networks collected!
 212 friend networks collected!
 213 friend networks collected!
 214 friend networks collected!
 215 friend networks collected!
 216 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: torbjoernkartes
 217 friend networks collected!
 218 friend networks collected!
 219 friend networks collected!
 220 friend networks collected!
 221 friend networks collected!
 222 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: TorbjoernKartes
 223 friend networks collected!
 224 friend networks collected!
 225 friend networks collected!
-226 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+226 friend networks collected!
 227 friend networks collected!
 228 friend networks collected!
 229 friend networks collected!
@@ -337,11 +337,13 @@ Waiting about 14.9 minutes for rate limit reset...
 238 friend networks collected!
 239 friend networks collected!
 240 friend networks collected!
-241 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+241 friend networks collected!
 242 friend networks collected!
 243 friend networks collected!
 244 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: dirk_heidenblut
 245 friend networks collected!
 246 friend networks collected!
 247 friend networks collected!
@@ -350,13 +352,11 @@ Waiting about 14.9 minutes for rate limit reset...
 250 friend networks collected!
 251 friend networks collected!
 252 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: dirk_heidenblut
 253 friend networks collected!
 254 friend networks collected!
 255 friend networks collected!
-256 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+256 friend networks collected!
 257 friend networks collected!
 258 friend networks collected!
 259 friend networks collected!
@@ -371,8 +371,8 @@ Waiting about 14.9 minutes for rate limit reset...
 268 friend networks collected!
 269 friend networks collected!
 270 friend networks collected!
-271 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+271 friend networks collected!
 272 friend networks collected!
 273 friend networks collected!
 274 friend networks collected!
@@ -384,13 +384,11 @@ Waiting about 14.9 minutes for rate limit reset...
 280 friend networks collected!
 281 friend networks collected!
 282 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: search
 283 friend networks collected!
 284 friend networks collected!
 285 friend networks collected!
-286 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+286 friend networks collected!
 287 friend networks collected!
 288 friend networks collected!
 289 friend networks collected!
@@ -405,8 +403,8 @@ Waiting about 14.9 minutes for rate limit reset...
 298 friend networks collected!
 299 friend networks collected!
 300 friend networks collected!
-301 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+301 friend networks collected!
 302 friend networks collected!
 303 friend networks collected!
 304 friend networks collected!
@@ -421,8 +419,8 @@ Waiting about 14.9 minutes for rate limit reset...
 313 friend networks collected!
 314 friend networks collected!
 315 friend networks collected!
-316 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+316 friend networks collected!
 317 friend networks collected!
 318 friend networks collected!
 319 friend networks collected!
@@ -431,21 +429,23 @@ Waiting about 14.9 minutes for rate limit reset...
 322 friend networks collected!
 323 friend networks collected!
 324 friend networks collected!
+Warning: /1.1/friends/ids.json - Not authorized.
+Warning: ^^ warning regarding user: achimkessler
 325 friend networks collected!
 326 friend networks collected!
 327 friend networks collected!
 328 friend networks collected!
 329 friend networks collected!
 330 friend networks collected!
-331 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+331 friend networks collected!
 332 friend networks collected!
 333 friend networks collected!
 334 friend networks collected!
 335 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: bystronafd
 336 friend networks collected!
-Warning: /1.1/friends/ids.json - Not authorized.
-Warning: ^^ warning regarding user: achimkessler
 337 friend networks collected!
 338 friend networks collected!
 339 friend networks collected!
@@ -455,12 +455,10 @@ Warning: ^^ warning regarding user: achimkessler
 343 friend networks collected!
 344 friend networks collected!
 345 friend networks collected!
-346 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+346 friend networks collected!
 347 friend networks collected!
 348 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: BystronAfD
 349 friend networks collected!
 350 friend networks collected!
 351 friend networks collected!
@@ -473,8 +471,8 @@ Warning: ^^ warning regarding user: BystronAfD
 358 friend networks collected!
 359 friend networks collected!
 360 friend networks collected!
-361 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+361 friend networks collected!
 362 friend networks collected!
 363 friend networks collected!
 364 friend networks collected!
@@ -488,9 +486,11 @@ Waiting about 14.9 minutes for rate limit reset...
 372 friend networks collected!
 373 friend networks collected!
 374 friend networks collected!
+Warning: 34 - Sorry, that page does not exist.
+Warning: ^^ warning regarding user: kerstin_tack
 375 friend networks collected!
-376 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+376 friend networks collected!
 377 friend networks collected!
 378 friend networks collected!
 379 friend networks collected!
@@ -505,33 +505,12 @@ Waiting about 14.9 minutes for rate limit reset...
 388 friend networks collected!
 389 friend networks collected!
 390 friend networks collected!
-391 friend networks collected!
 Waiting about 14.9 minutes for rate limit reset...
+391 friend networks collected!
 392 friend networks collected!
-Warning: 34 - Sorry, that page does not exist.
-Warning: ^^ warning regarding user: kerstin_tack
 393 friend networks collected!
 394 friend networks collected!
 395 friend networks collected!
-396 friend networks collected!
-397 friend networks collected!
-398 friend networks collected!
-399 friend networks collected!
-400 friend networks collected!
-401 friend networks collected!
-402 friend networks collected!
-403 friend networks collected!
-404 friend networks collected!
-405 friend networks collected!
-406 friend networks collected!
-Waiting about 14.9 minutes for rate limit reset...
-407 friend networks collected!
-408 friend networks collected!
-409 friend networks collected!
-410 friend networks collected!
-411 friend networks collected!
-412 friend networks collected!
-413 friend networks collected!
 > friends$fetch_friends_timestamp <- Sys.time()
 > 
 > saveRDS(friends, 'data/deputies_twitter_friends_tmp.RDS')

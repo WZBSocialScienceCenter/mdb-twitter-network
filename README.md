@@ -12,3 +12,6 @@ https://www.abgeordnetenwatch.de/api/parliament/bundestag/deputies.json
 grepl('^https?://(www\\.)?twitter\\.com/', urls)
 ```
 
+## TODO
+
+- fetch_friends / lookup_friends noch mal neu laufen lassen

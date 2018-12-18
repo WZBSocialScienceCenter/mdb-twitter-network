@@ -8,7 +8,7 @@ mdb <- read.csv('data/deputies_twitter.csv',
                 colClasses = c(personal.location.postal_code = "character"))
 
 mdb <- mdb %>% filter(!is.na(twitter_name)) %>%
-  select(personal.first_name, personal.last_name, personal.gender, personal.birthyear, party, twitter_name, twitter_url) %>%
+  select(personal.first_name, personal.last_name, personal.gender, personal.birthyear, party, twitter_name) %>%
   mutate(personal.gender = as.factor(personal.gender),
          party = as.factor(party))
 

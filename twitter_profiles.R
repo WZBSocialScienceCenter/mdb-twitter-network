@@ -30,13 +30,23 @@ dep_twitter[dep_twitter$twitter_name == 'twitter', ]$twitter_name <- sapply(
 dep_twitter <- dep_twitter[nchar(dep_twitter$twitter_name) > 3, ]
 print(paste('Anzahl Twitternamen:', nrow(dep_twitter)))
 
+# Duplikate entfernen
+dep_twitter <- dep_twitter %>% select(-custom_links) %>%
+    mutate(twitter_name = tolower(twitter_name)) %>%
+    filter(is.na(twitter_name) | twitter_name != 'search') %>%
+    distinct()
+
 # Verbinden mit kompletten Daten
 deputies <- fromJSON('data/deputies.json', flatten = TRUE)
 
 dep <- as.tibble(deputies$profiles) %>% select(starts_with('meta'), starts_with('personal'), 'party',
                                                starts_with('parliament'))
 
-dep <- dep %>% left_join(dep_twitter %>% select(uuid, twitter_name, twitter_url = custom_links), by = c('meta.uuid' = 'uuid'))
+orig_nrows <- nrow(dep)
+
+dep <- dep %>% left_join(dep_twitter %>% select(uuid, twitter_name), by = c('meta.uuid' = 'uuid'))
+
+stopifnot(orig_nrows == nrow(dep))
 
 dep %>% select(personal.first_name, personal.last_name, party, twitter_name)
 

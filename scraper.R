@@ -14,6 +14,9 @@ deputies <- fromJSON('data/deputies.json')
 sleep_sec <- 10  # nach robots.txt
 
 # Profil URLs
+n_profiles <- nrow(deputies$profiles)
+print(paste('Anzahl Profile:', n_profiles))
+
 prof_urls <- deputies$profiles$meta %>% select(uuid, url)
 
 #prof_urls <- prof_urls %>% head(10)

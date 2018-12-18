@@ -954,6 +954,12 @@ The following objects are masked from ‘package:base’:
 [1] "fetching data for friends IDs in range [83501, 83600] (100 ids)"
 [1] "waiting for 900 sec."
 [1] "fetching data for friends IDs in range [83601, 83700] (100 ids)"
+[1] "will advance with retry 1"
+[1] "waiting for 900 sec."
+[1] "fetching data for friends IDs in range [83601, 83700] (100 ids)"
+[1] "will advance with retry 2"
+[1] "waiting for 900 sec."
+[1] "fetching data for friends IDs in range [83601, 83700] (100 ids)"
 [1] "fetching data for friends IDs in range [83701, 83800] (100 ids)"
 [1] "fetching data for friends IDs in range [83801, 83900] (100 ids)"
 [1] "fetching data for friends IDs in range [83901, 84000] (100 ids)"
@@ -1087,11 +1093,11 @@ The following objects are masked from ‘package:base’:
 [1] "fetching data for friends IDs in range [96701, 96800] (100 ids)"
 [1] "fetching data for friends IDs in range [96801, 96900] (100 ids)"
 [1] "fetching data for friends IDs in range [96901, 97000] (100 ids)"
-[1] "fetching data for friends IDs in range [97001, 97003] (3 ids)"
+[1] "fetching data for friends IDs in range [97001, 97090] (90 ids)"
 > 
 > n_fetched <- sum(!is.na(friendsdata$screen_name))
 > print(sprintf('got data for %d out of %d unique friends accounts', n_fetched, n_friends_ids))
-[1] "got data for 96990 out of 97003 unique friends accounts"
+[1] "got data for 97086 out of 97090 unique friends accounts"
 > 
 > friendsdata$fetch_friendsdata_timestamp <- Sys.time()
 > 
@@ -1100,7 +1106,7 @@ The following objects are masked from ‘package:base’:
 > friendsfull <- left_join(friends, friendsdata, by = 'user_id')
 > n_matched <- sum(!is.na(friendsfull$screen_name))
 > print(sprintf('matching successful for %d out of %d rows', n_matched, nrow(friends)))
-[1] "matching successful for 345571 out of 345594 rows"
+[1] "matching successful for 326232 out of 326239 rows"
 > 
 > saveRDS(friendsfull, 'data/deputies_twitter_friends_full.RDS')
 > friendsfull_csvfriendly <- select_if(friendsfull, function(x) all(!is.list(x)))

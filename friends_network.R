@@ -1,10 +1,15 @@
 # TODOs:
-# - interaktiv?
+# - interaktiv
+#   - labels / tooltips
+#   - selection
+#   - export as HTML
 # - Anteil Follower / Friends jew. anderer Parteien pro Account / pro Partei
-# - ggraph?
 
 library(dplyr)
 library(igraph)
+library(visNetwork)
+
+# ---- load and prepare data about deputies and their twitter handles ----
 
 dep_twitter_full <- read.csv('data/deputies_twitter.csv', stringsAsFactors = FALSE)
 head(dep_twitter_full)
@@ -13,9 +18,11 @@ dep_twitter <- filter(dep_twitter_full, !is.na(twitter_name)) %>%
     select(twitter_name, personal.first_name, personal.last_name, personal.gender, personal.birthyear,
            personal.location.state, personal.location.city, party)
 
+# ---- prepare colors for parties ----
+
 unique(dep_twitter$party)
 
-party_colors <- c(
+party_colors <- c(   # HTML codes for colors to later add a transparency value
     'SPD' = '#FF0000',
     'CDU' = '#000000',
     'DIE GRÜNEN' = '#00FF00',
@@ -26,8 +33,10 @@ party_colors <- c(
     'fraktionslos' = '#808080'
 )
 
-party_colors_semitransp <- paste0(party_colors, '40')
+party_colors_semitransp <- paste0(party_colors, '40')   # add transparency
 names(party_colors_semitransp) <- names(party_colors)
+
+# ---- load and prepare deputies' twitter connections data ----
 
 friends_full <- readRDS('data/deputies_twitter_friends_full.RDS')
 
@@ -37,9 +46,13 @@ friends <- select(friends_full, user, fetch_friends_timestamp, fetch_friendsdata
                   account_lang)
 head(friends)
 
+# a few NAs for "screen_name"; remove those observations
+
 friends[is.na(friends$screen_name),]
 
 friends <- filter(friends, !is.na(screen_name))
+
+# retain only the connections between deputies, not to other twitter accounts
 
 dep_accounts <- unique(friends$user)
 
@@ -51,10 +64,14 @@ stopifnot(sum(!(dep_friends$user %in% dep_twitter$twitter_name)) == 0)
 #dep_friends <- left_join(dep_friends, dep_twitter, by = c('user' = 'twitter_name'))
 #sum(is.na(dep_friends$party))
 
+# ---- create and edge list ----
+
 edgelist <- select(dep_friends, from_account = user, to_account = screen_name) %>%
     left_join(select(dep_twitter, twitter_name, party), by = c('from_account' = 'twitter_name'))
 
 head(edgelist)
+
+# remove accounts that are not connected to any other deputy account
 
 accounts_connected <- unique(c(edgelist$from_account, edgelist$to_account))
 accounts_not_connected <- dep_twitter$twitter_name[!(dep_twitter$twitter_name %in% accounts_connected)]
@@ -62,11 +79,17 @@ accounts_not_connected
 
 dep_twitter_connected <- filter(dep_twitter, twitter_name %in% accounts_connected)
 
+# ---- create an igraph object ----
+
 g <- graph_from_data_frame(edgelist, vertices = dep_twitter_connected)
 g
 
+# set the vertice and edge colors according to party membership
+
 V(g)$color <- party_colors[V(g)$party]
 E(g)$color <- party_colors_semitransp[E(g)$party]
+
+# ---- create a layout and plot a static image ----
 
 #lay <- layout_with_kk(g)  # okay
 #lay <- layout_with_fr(g)  # not optimal
@@ -85,3 +108,19 @@ legend('topright', legend = names(party_colors), col = party_colors,
        pch = 15, bty = "n",  pt.cex = 2.5, cex = 2,    # pt.cex = 1.25, cex = 0.7,  
        text.col = "black", horiz = FALSE)
 dev.off()
+
+# ---- visNetwork interactive plot ----
+
+vis_nw_data <- toVisNetworkData(g)
+vis_nw_data$nodes
+vis_nw_data$edges
+vis_nw_data$edges$color <- substr(vis_nw_data$edges$color, 0, 7)
+
+vis_legend_data <- data.frame(label = names(party_colors), color = unname(party_colors), shape = 'square')
+
+visNetwork(nodes = vis_nw_data$nodes, edges = vis_nw_data$edges) %>%
+    visIgraphLayout(layout = 'layout_with_drl', options=list(simmer.attraction=0)) %>%
+    visEdges(color = list(opacity = 0.25), arrows = 'to') %>%
+    visLegend(addNodes = vis_legend_data, useGroups = FALSE, zoom = FALSE, width = 0.2) %>%
+    visInteraction(dragNodes = FALSE)
+

@@ -1,5 +1,4 @@
 # TODOs:
-# - PNG Export
 # - interaktiv?
 # - Anteil Follower / Friends jew. anderer Parteien pro Account / pro Partei
 # - ggraph?
@@ -69,18 +68,20 @@ g
 V(g)$color <- party_colors[V(g)$party]
 E(g)$color <- party_colors_semitransp[E(g)$party]
 
-lay <- layout_with_kk(g)  # okay
-lay <- layout_with_fr(g)  # not optimal
+#lay <- layout_with_kk(g)  # okay
+#lay <- layout_with_fr(g)  # not optimal
 lay <- layout_with_drl(g, options=list(simmer.attraction=0))  # good separation
 
 #lay <- layout_nicely(g)  # uses fr
 
+png('plots/dep_igraph_drl.png', width = 2048, height = 2048)
 par(mar = rep(0.1, 4))   # reduce margins
 plot(g, layout = lay,
-     vertex.size = 2.5, vertex.label.cex = 0.6,
+     vertex.size = 2.5, vertex.label.cex = 1.2,   # 0.6
      vertex.label.color = 'black', vertex.label.family = 'arial',
      vertex.label.dist = 0.5, vertex.frame.color = 'white',
-     edge.arrow.size = 0.2, edge.curved = TRUE)    # , edge.color = '#AAAAAA20'
+     edge.arrow.size = 1, edge.curved = TRUE)    # edge.arrow.size = 0.2 , edge.color = '#AAAAAA20'
 legend('topright', legend = names(party_colors), col = party_colors,
-       pch = 15, bty = "n",  pt.cex = 1.25, cex = 0.7, 
+       pch = 15, bty = "n",  pt.cex = 2.5, cex = 2,    # pt.cex = 1.25, cex = 0.7,  
        text.col = "black", horiz = FALSE)
+dev.off()

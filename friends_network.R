@@ -1,7 +1,6 @@
 # TODOs:
 # - interaktiv
 #   - labels / tooltips
-#   - selection
 #   - export as HTML
 # - Anteil Follower / Friends jew. anderer Parteien pro Account / pro Partei
 
@@ -121,6 +120,8 @@ vis_legend_data <- data.frame(label = names(party_colors), color = unname(party_
 visNetwork(nodes = vis_nw_data$nodes, edges = vis_nw_data$edges) %>%
     visIgraphLayout(layout = 'layout_with_drl', options=list(simmer.attraction=0)) %>%
     visEdges(color = list(opacity = 0.25), arrows = 'to') %>%
+    visNodes(labelHighlightBold = TRUE, borderWidth = 1, borderWidthSelected = 12) %>%
     visLegend(addNodes = vis_legend_data, useGroups = FALSE, zoom = FALSE, width = 0.2) %>%
+    visOptions(nodesIdSelection = TRUE, highlightNearest = TRUE, selectedBy = 'party') %>%
     visInteraction(dragNodes = FALSE)
 

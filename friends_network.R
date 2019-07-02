@@ -95,7 +95,7 @@ counts_p2p <- gather(p2p_mat, 'to_party', 'prop', 2:ncol(p2p_mat)) %>% arrange(f
     mutate(perc_label = sprintf('%.2f', prop * 100))
 counts_p2p
 
-ggplot(counts_p2p, aes(x = to_party, y = from_party, fill = prop * 100)) +
+p <- ggplot(counts_p2p, aes(x = to_party, y = from_party, fill = prop * 100)) +
     geom_raster() +
     geom_text(aes(label = perc_label), color = 'white') +
     scale_fill_viridis_c(guide = guide_legend(title = 'Followers / following\nshare in percent')) +
@@ -103,6 +103,9 @@ ggplot(counts_p2p, aes(x = to_party, y = from_party, fill = prop * 100)) +
          title = 'Proportion of followings / followers between parties') +
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
+p
+
+ggsave('plots/p2p_follower_shares.png', p, width = 8, height = 6)
 
 # TODO: do this on deputy level
 

@@ -1,8 +1,8 @@
 # TODOs:
-# - interaktiv
-#   - labels / tooltips
-#   - export as HTML
 # - Anteil Follower / Friends jew. anderer Parteien pro Account / pro Partei
+# - Daten aktualisieren
+# - Vergl. mit neuen Daten
+# - Dokumentation
 
 library(dplyr)
 library(igraph)
@@ -22,12 +22,12 @@ dep_twitter <- filter(dep_twitter_full, !is.na(twitter_name)) %>%
 unique(dep_twitter$party)
 
 party_colors <- c(   # HTML codes for colors to later add a transparency value
-    'SPD' = '#FF0000',
+    'SPD' = '#CC0000',
     'CDU' = '#000000',
-    'DIE GRÜNEN' = '#00FF00',
+    'DIE GRÜNEN' = '#33D633',
     'DIE LINKE' = '#800080',
-    'FDP' = '#FFFF00',
-    'AfD' = '#0000FF',
+    'FDP' = '#EEEE00',
+    'AfD' = '#0000ED',
     'CSU' = '#ADD8E6',
     'fraktionslos' = '#808080'
 )
@@ -111,13 +111,16 @@ dev.off()
 # ---- visNetwork interactive plot ----
 
 vis_nw_data <- toVisNetworkData(g)
-vis_nw_data$nodes
-vis_nw_data$edges
+
+vis_nw_data$nodes$title <- sprintf('@%s (%s %s)', vis_nw_data$nodes$id, vis_nw_data$nodes$personal.first_name, vis_nw_data$nodes$personal.last_name)
+head(vis_nw_data$nodes)
+
 vis_nw_data$edges$color <- substr(vis_nw_data$edges$color, 0, 7)
+head(vis_nw_data$edges)
 
 vis_legend_data <- data.frame(label = names(party_colors), color = unname(party_colors), shape = 'square')
 
-visNetwork(nodes = vis_nw_data$nodes, edges = vis_nw_data$edges) %>%
+vis_nw <- visNetwork(nodes = vis_nw_data$nodes, edges = vis_nw_data$edges, height = '700px', width = '90%') %>%
     visIgraphLayout(layout = 'layout_with_drl', options=list(simmer.attraction=0)) %>%
     visEdges(color = list(opacity = 0.25), arrows = 'to') %>%
     visNodes(labelHighlightBold = TRUE, borderWidth = 1, borderWidthSelected = 12) %>%
@@ -125,3 +128,4 @@ visNetwork(nodes = vis_nw_data$nodes, edges = vis_nw_data$edges) %>%
     visOptions(nodesIdSelection = TRUE, highlightNearest = TRUE, selectedBy = 'party') %>%
     visInteraction(dragNodes = FALSE)
 
+visSave(vis_nw, file = 'dep_visnetwork.html')

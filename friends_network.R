@@ -1,10 +1,11 @@
 # TODOs:
-# - Anteil Follower / Friends jew. anderer Parteien pro Account / pro Partei
 # - Daten aktualisieren
 # - Vergl. mit neuen Daten
 # - Dokumentation
 
 library(dplyr)
+library(tidyr)
+library(ggplot2)
 library(igraph)
 library(visNetwork)
 
@@ -62,6 +63,49 @@ stopifnot(sum(!(dep_friends$user %in% dep_twitter$twitter_name)) == 0)
 
 #dep_friends <- left_join(dep_friends, dep_twitter, by = c('user' = 'twitter_name'))
 #sum(is.na(dep_friends$party))
+
+# ---- followings / followers share between parties ----
+
+dep_accounts_parties <- select(dep_twitter, twitter_name, party)
+
+edges_parties <- select(dep_friends, from_account = user, to_account = screen_name) %>%
+    left_join(dep_accounts_parties, by = c('from_account' = 'twitter_name')) %>%
+    rename(from_party = party) %>%
+    left_join(dep_accounts_parties, by = c('to_account' = 'twitter_name')) %>%
+    rename(to_party = party) %>%
+    filter(from_party != 'fraktionslos' & to_party != 'fraktionslos')
+
+head(edges_parties)
+
+counts_p2p <- group_by(edges_parties, from_party, to_party) %>% count() %>% ungroup()
+counts_party_edges <- group_by(counts_p2p, from_party) %>% summarise(n_edges = sum(n))
+counts_p2p <- left_join(counts_p2p, counts_party_edges, by = 'from_party') %>%
+    mutate(prop = n/n_edges) %>% select(-n_edges)
+head(counts_p2p)
+
+#interaction(counts_p2p$from_party, counts_p2p$to_party)
+
+p2p_mat <- select(counts_p2p, -n) %>% spread(to_party, prop) %>%
+    mutate_all(function(x) { ifelse(is.na(x), 0, x) })
+p2p_mat
+
+rowSums(as.matrix(p2p_mat[, 2:8]))   # rows sum up to 1
+
+counts_p2p <- gather(p2p_mat, 'to_party', 'prop', 2:ncol(p2p_mat)) %>% arrange(from_party, to_party) %>%
+    mutate(perc_label = sprintf('%.2f', prop * 100))
+counts_p2p
+
+ggplot(counts_p2p, aes(x = to_party, y = from_party, fill = prop * 100)) +
+    geom_raster() +
+    geom_text(aes(label = perc_label), color = 'white') +
+    scale_fill_viridis_c(guide = guide_legend(title = 'Followers / following\nshare in percent')) +
+    labs(x = 'party in column is followed by party in row', y = 'party in row follows party in column',
+         title = 'Proportion of followings / followers between parties') +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# TODO: do this on deputy level
+
 
 # ---- create and edge list ----
 

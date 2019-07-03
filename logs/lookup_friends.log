@@ -34,7 +34,7 @@ The following objects are masked from ‘package:base’:
 > source('twitterkeys.R')
 > 
 > 
-> friends <- readRDS('data/deputies_twitter_friends_tmp.RDS')
+> friends <- readRDS('data/deputies_twitter_friends_tmp_20190702.RDS')
 > 
 > token <- create_token(
 +     app = "WZBAnalysis",
@@ -55,6 +55,9 @@ The following objects are masked from ‘package:base’:
 > chunk_idx <- 0
 > cur_retry <- 0
 > friendsdata <- data_frame()
+Warning message:
+`data_frame()` is deprecated, use `tibble()`.
+This warning is displayed once per session. 
 > 
 > print('fetching data from Twitter API...')
 [1] "fetching data from Twitter API..."
@@ -1093,11 +1096,50 @@ The following objects are masked from ‘package:base’:
 [1] "fetching data for friends IDs in range [96701, 96800] (100 ids)"
 [1] "fetching data for friends IDs in range [96801, 96900] (100 ids)"
 [1] "fetching data for friends IDs in range [96901, 97000] (100 ids)"
-[1] "fetching data for friends IDs in range [97001, 97090] (90 ids)"
+[1] "fetching data for friends IDs in range [97001, 97100] (100 ids)"
+[1] "fetching data for friends IDs in range [97101, 97200] (100 ids)"
+[1] "fetching data for friends IDs in range [97201, 97300] (100 ids)"
+[1] "fetching data for friends IDs in range [97301, 97400] (100 ids)"
+[1] "fetching data for friends IDs in range [97401, 97500] (100 ids)"
+[1] "fetching data for friends IDs in range [97501, 97600] (100 ids)"
+[1] "fetching data for friends IDs in range [97601, 97700] (100 ids)"
+[1] "fetching data for friends IDs in range [97701, 97800] (100 ids)"
+[1] "fetching data for friends IDs in range [97801, 97900] (100 ids)"
+[1] "fetching data for friends IDs in range [97901, 98000] (100 ids)"
+[1] "fetching data for friends IDs in range [98001, 98100] (100 ids)"
+[1] "fetching data for friends IDs in range [98101, 98200] (100 ids)"
+[1] "fetching data for friends IDs in range [98201, 98300] (100 ids)"
+[1] "fetching data for friends IDs in range [98301, 98400] (100 ids)"
+[1] "fetching data for friends IDs in range [98401, 98500] (100 ids)"
+[1] "fetching data for friends IDs in range [98501, 98600] (100 ids)"
+[1] "fetching data for friends IDs in range [98601, 98700] (100 ids)"
+[1] "fetching data for friends IDs in range [98701, 98800] (100 ids)"
+[1] "fetching data for friends IDs in range [98801, 98900] (100 ids)"
+[1] "fetching data for friends IDs in range [98901, 99000] (100 ids)"
+[1] "fetching data for friends IDs in range [99001, 99100] (100 ids)"
+[1] "fetching data for friends IDs in range [99101, 99200] (100 ids)"
+[1] "fetching data for friends IDs in range [99201, 99300] (100 ids)"
+[1] "fetching data for friends IDs in range [99301, 99400] (100 ids)"
+[1] "fetching data for friends IDs in range [99401, 99500] (100 ids)"
+[1] "fetching data for friends IDs in range [99501, 99600] (100 ids)"
+[1] "fetching data for friends IDs in range [99601, 99700] (100 ids)"
+[1] "fetching data for friends IDs in range [99701, 99800] (100 ids)"
+[1] "fetching data for friends IDs in range [99801, 99900] (100 ids)"
+[1] "fetching data for friends IDs in range [99901, 100000] (100 ids)"
+[1] "fetching data for friends IDs in range [100001, 100100] (100 ids)"
+[1] "fetching data for friends IDs in range [100101, 100200] (100 ids)"
+[1] "fetching data for friends IDs in range [100201, 100300] (100 ids)"
+[1] "fetching data for friends IDs in range [100301, 100400] (100 ids)"
+[1] "fetching data for friends IDs in range [100401, 100500] (100 ids)"
+[1] "fetching data for friends IDs in range [100501, 100600] (100 ids)"
+[1] "fetching data for friends IDs in range [100601, 100700] (100 ids)"
+[1] "fetching data for friends IDs in range [100701, 100800] (100 ids)"
+[1] "fetching data for friends IDs in range [100801, 100900] (100 ids)"
+[1] "fetching data for friends IDs in range [100901, 100951] (51 ids)"
 > 
 > n_fetched <- sum(!is.na(friendsdata$screen_name))
 > print(sprintf('got data for %d out of %d unique friends accounts', n_fetched, n_friends_ids))
-[1] "got data for 97086 out of 97090 unique friends accounts"
+[1] "got data for 100937 out of 100951 unique friends accounts"
 > 
 > friendsdata$fetch_friendsdata_timestamp <- Sys.time()
 > 
@@ -1106,9 +1148,9 @@ The following objects are masked from ‘package:base’:
 > friendsfull <- left_join(friends, friendsdata, by = 'user_id')
 > n_matched <- sum(!is.na(friendsfull$screen_name))
 > print(sprintf('matching successful for %d out of %d rows', n_matched, nrow(friends)))
-[1] "matching successful for 326232 out of 326239 rows"
+[1] "matching successful for 344963 out of 344991 rows"
 > 
-> saveRDS(friendsfull, 'data/deputies_twitter_friends_full.RDS')
-> friendsfull_csvfriendly <- select_if(friendsfull, function(x) all(!is.list(x)))
-> write.csv(friendsfull_csvfriendly, 'data/deputies_twitter_friends.csv', row.names = FALSE)
+> saveRDS(friendsfull, 'data/deputies_twitter_friends_full_20190702.RDS')
 > 
+> # friendsfull_csvfriendly <- select_if(friendsfull, function(x) all(!is.list(x)))
+> # write.csv(friendsfull_csvfriendly, 'data/deputies_twitter_friends.csv', row.names = FALSE)

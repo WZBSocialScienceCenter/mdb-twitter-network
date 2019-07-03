@@ -1,34 +1,38 @@
-# Scraper für "Weiterführende Links" von MdB Profilen auf abgeordnetenwatch.de.
+# This script scrapes the abgeordnetenwatch.de profile page of each deputy from `data/deputies.json` in
+# order to extract the links to social media platforms; saves the result in
+# `data/deputies_custom_links.csv`.
 #
-# Dez. 2018, Markus Konrad <markus.konrad@wzb.eu>
+# December 2018, Markus Konrad <markus.konrad@wzb.eu>
 #
 
 library(jsonlite)
 library(rvest)
 library(dplyr)
 
-# Daten der Abgeordneten für Bundestag 2017 - 2021
-# abgerufen von https://www.abgeordnetenwatch.de/api/parliament/bundestag/deputies.json
-deputies <- fromJSON('data/deputies.json')
+# data from members of the 19th German Bundestag
+# obtained from https://www.abgeordnetenwatch.de/api/parliament/bundestag/deputies.json
+deputies <- fromJSON('data/deputies_20190702.json')
 
-sleep_sec <- 10  # nach robots.txt
+sleep_sec <- 10  # according to robots.txt
 
-# Profil URLs
+# get profile URLs
 n_profiles <- nrow(deputies$profiles)
-print(paste('Anzahl Profile:', n_profiles))
+print(paste('Num. profiles:', n_profiles))
 
 prof_urls <- deputies$profiles$meta %>% select(uuid, url)
 
 #prof_urls <- prof_urls %>% head(10)
 
+# function to fetch HTML from profile page and extract "further links" section
+# ("Weiterführende Links von ...") on the page
 fetch_urls <- function(profile_row) {
     print(paste('fetching profile page at', profile_row$url))
     
-    # Warten und HTML abrufen
+    # wait and fetch HTML
     Sys.sleep(sleep_sec)
     html <- read_html(profile_row$url)
     
-    # Links in "Weiterführende Links von ..." extrahieren
+    # extract links
     links <- html_nodes(html, 'div.deputy__custom-links ul.link-list li a')
     urls <- html_attr(links, 'href')
     
@@ -36,14 +40,14 @@ fetch_urls <- function(profile_row) {
         urls <- NA
     }
     
-    # Partiellen Dataframe zurückgeben
+    # return data frame for this deputy which will be concatenated to a single data frame
+    # of all deputies
     data.frame(profile_row, custom_links = urls, stringsAsFactors = FALSE)
 }
 
-# fetch_urls pro Profil anwenden
-# Auf Parallelisierung wird verzichtet um den Server nicht übermäßig zu beanspruchen...
+# apply fetch_urls to each profile
 prof_urls_complete <- prof_urls %>% rowwise() %>% do(fetch_urls(.))
 
-# Speichern
-write.csv(prof_urls_complete, 'data/deputies_custom_links.csv', row.names = FALSE)
+# save result
+write.csv(prof_urls_complete, 'data/deputies_custom_links_20190702.csv', row.names = FALSE)
 

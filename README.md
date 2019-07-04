@@ -12,8 +12,6 @@ This repository contains R scripts for
 
 The respective downloaded and processed data also resides in the `data` directory.
 
-TODO: link to blog post
-
 ## Data sources
 
 Data on German representatives in different parliaments can be found on [abgeordnetenwatch.de](https://www.abgeordnetenwatch.de), which also provides an [API](https://www.abgeordnetenwatch.de/api). The list of deputies of the current (19th) German Bundestag is obtained from:
@@ -36,3 +34,15 @@ There is a `Makefile` which allows calling the scripts directly and running them
 The datasets `deputies_twitter.csv` and `deputies_twitter_friends_full.RDS` can be joined resulting in a dataset with deputies and a list of Twitter profiles that they follow.
 
 The script `friends_network.R` uses this dataset to create and visualize the Twitter network between deputies (i.e. who follows whom / who is followed by whom).
+
+## Data and plots
+
+All collected data resides in `data`, generated plots in `plots` and HTML files for the interactive network visualizations are in the root directory named `dep_visnetwork_XXX.html`.
+
+Data and plot files are suffixed (`_XXX`) by the two points in time when the data was collected: `_20181205` for Dec. 5 2018 and `_20190702` for July 2 2019.
+
+- `data/deputies_XXX.json`: full data on members of the 19th German Bundestag downloaded from the [abgeordnetenwatch.de](https://www.abgeordnetenwatch.de) API
+- `data/deputies_custom_links_XXX.csv`: URLs from the "further links" section scraped from each deputy's profile page on [abgeordnetenwatch.de](https://www.abgeordnetenwatch.de) (including links to Twitter, Facebook, etc. for many profiles)
+- `data/deputies_twitter_XXX.csv`: dataset of deputies data from [abgeordnetenwatch.de](https://www.abgeordnetenwatch.de) combined with Twitter user names (where listed on the profile page)
+- `data/deputies_twitter_friends_full_XXX.RDS`: RDS file (load with `readRDS()`) containing data frame that for each deputy Twitter user name contains information about her/his Twitter followings (aka "friends")
+- `data/deputies_twitter_friends_tmp_XXX.RDS`: tempory dataset that for each deputy Twitter user name contains the Twitter user IDs of her/his Twitter followings

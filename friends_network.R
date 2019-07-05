@@ -10,10 +10,12 @@ library(ggplot2)
 library(igraph)
 library(visNetwork)
 
-source_date <- '20181205'
-source_date_title <- 'December 05, 2018'
-#source_date <- '20190702'
-#source_date_title <- 'July 02, 2019'
+# choose the dataset
+
+#source_date <- '20181205'
+#source_date_title <- 'December 05, 2018'
+source_date <- '20190702'
+source_date_title <- 'July 02, 2019'
 
 # ---- load and prepare data about deputies and their twitter handles ----
 

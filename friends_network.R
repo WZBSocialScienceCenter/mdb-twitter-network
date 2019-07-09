@@ -137,33 +137,45 @@ ggsave(sprintf('plots/p2p_follower_shares_%s.png', source_date), p, width = 8, h
 
 # TODO: do this on deputy level?
 
-# ---- create an edge list for igraph ----
+# ---- create an edge list and vertices for igraph ----
 
-# consists of columns "from_account" and "to_account" which define the edge (i.e. the connection)
-# and a column "party" for the deputy's ("from_account") party
-edgelist <- select(dep_friends, from_account = user, to_account = screen_name) %>%
-    left_join(select(dep_twitter, twitter_name, party), by = c('from_account' = 'twitter_name'))
-
-head(edgelist)
+# we can re-use the edges_parties data frame as edge list for igraph
+head(edges_parties)
 
 # remove accounts that are not connected to any other deputy account
 
-accounts_connected <- unique(c(edgelist$from_account, edgelist$to_account))
+accounts_connected <- unique(c(edges_parties$from_account, edges_parties$to_account))
 accounts_not_connected <- dep_twitter$twitter_name[!(dep_twitter$twitter_name %in% accounts_connected)]
 accounts_not_connected
 
-# these accounts are uses as vertices (aka nodes)
+# these accounts are used as vertices (aka nodes)
 dep_twitter_connected <- filter(dep_twitter, twitter_name %in% accounts_connected)
 
 # ---- create an visualize igraph network ----
 
-g <- graph_from_data_frame(edgelist, vertices = dep_twitter_connected)
+g <- graph_from_data_frame(edges_parties, vertices = dep_twitter_connected)
 g
+
+# graph centrality scores
+
+degree_score <- degree(g, mode = 'total')
+betw_score <- betweenness(g)
+stopifnot(all(names(betw_score) == names(degree_score)))
+graph_scores <- data.frame(twitter_name = names(degree_score),
+                           degr_score = degree_score,
+                           betw_score = betw_score,
+                           row.names = NULL, stringsAsFactors = FALSE)
+graph_scores <- left_join(dep_twitter_connected, graph_scores, by = 'twitter_name') %>%
+    mutate(full_name = paste(personal.first_name, personal.last_name)) %>%
+    select(twitter_name, full_name, degr_score, betw_score, party)
+
+graph_scores %>% arrange(desc(degree_score)) %>% head(10)
+graph_scores %>% arrange(desc(betw_score)) %>% head(10)
 
 # set the vertice and edge colors according to party membership
 
 V(g)$color <- party_colors[V(g)$party]
-E(g)$color <- party_colors_semitransp[E(g)$party]
+E(g)$color <- party_colors_semitransp[E(g)$from_party]
 
 # ---- create a layout and plot a static image ----
 

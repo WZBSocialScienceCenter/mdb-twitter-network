@@ -12,10 +12,10 @@ library(visNetwork)
 
 # choose the dataset
 
-#source_date <- '20181205'
-#source_date_title <- 'December 05, 2018'
-source_date <- '20190702'
-source_date_title <- 'July 02, 2019'
+source_date <- '20181205'
+source_date_title <- 'December 05, 2018'
+#source_date <- '20190702'
+#source_date_title <- 'July 02, 2019'
 
 # ---- load and prepare data about deputies and their twitter handles ----
 
@@ -37,8 +37,7 @@ party_colors <- c(   # HTML codes for colors to later add a transparency value
     'DIE LINKE' = '#800080',
     'FDP' = '#EEEE00',
     'AfD' = '#0000ED',
-    'CSU' = '#ADD8E6',
-    'fraktionslos' = '#808080'
+    'CSU' = '#ADD8E6'
 )
 
 party_colors_semitransp <- paste0(party_colors, '40')   # add transparency as hex code (25% transparency)
@@ -160,6 +159,9 @@ g
 
 degree_score <- degree(g, mode = 'total')
 betw_score <- betweenness(g)
+head(degree_score)
+head(betw_score)
+
 stopifnot(all(names(betw_score) == names(degree_score)))
 graph_scores <- data.frame(twitter_name = names(degree_score),
                            degr_score = degree_score,
@@ -186,17 +188,17 @@ lay <- layout_with_drl(g, options=list(simmer.attraction=0))  # good separation
 
 #lay <- layout_nicely(g)  # uses fr
 
-png(sprintf('plots/dep_igraph_%s.png', source_date), width = 2048, height = 2048)
-#par(mar = rep(0.1, 4))   # reduce margins
+png(sprintf('plots/dep_igraph_%s.png', source_date), width = 2048, height = 2048, pointsize = 30)
+par(mar = c(1, 1, 3, 1))
+
 plot(g, layout = lay,
-     vertex.size = 2.5, vertex.label.cex = 1.2,   # 0.6
+     vertex.size = 2, vertex.label.cex = 0.7,
      vertex.label.color = 'black', vertex.label.family = 'arial',
      vertex.label.dist = 0.5, vertex.frame.color = 'white',
-     edge.arrow.size = 1, edge.curved = TRUE)    # edge.arrow.size = 0.2 , edge.color = '#AAAAAA20'
-title(main = list('Twitter network of members of the German Bundestag', cex = 3.5),
-      sub = list(paste('State as of', source_date_title), cex = 3))
+     edge.arrow.size = 0.2, edge.curved = TRUE)
+title(main = list(sprintf('Twitter network of members of the German Bundestag\nas of %s', source_date_title), cex = 1.2), line = -0.5)
 legend('topright', legend = names(party_colors), col = party_colors,
-       pch = 15, bty = "n",  pt.cex = 2.5, cex = 2,    # pt.cex = 1.25, cex = 0.7,  
+       pch = 15, bty = "n",  pt.cex = 1.25, cex = 0.8,
        text.col = "black", horiz = FALSE)
 dev.off()
 

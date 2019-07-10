@@ -12,10 +12,10 @@ library(visNetwork)
 
 # choose the dataset
 
-source_date <- '20181205'
-source_date_title <- 'December 05, 2018'
-#source_date <- '20190702'
-#source_date_title <- 'July 02, 2019'
+#source_date <- '20181205'
+#source_date_title <- 'December 05, 2018'
+source_date <- '20190702'
+source_date_title <- 'July 02, 2019'
 
 # ---- load and prepare data about deputies and their twitter handles ----
 
@@ -196,7 +196,7 @@ plot(g, layout = lay,
      vertex.label.color = 'black', vertex.label.family = 'arial',
      vertex.label.dist = 0.5, vertex.frame.color = 'white',
      edge.arrow.size = 0.2, edge.curved = TRUE)
-title(main = list(sprintf('Twitter network of members of the German Bundestag\nas of %s', source_date_title), cex = 1.2), line = -0.5)
+title(sprintf('Twitter network of members of the German Bundestag\nas of %s', source_date_title), cex = 1.2, line = -0.5)
 legend('topright', legend = names(party_colors), col = party_colors,
        pch = 15, bty = "n",  pt.cex = 1.25, cex = 0.8,
        text.col = "black", horiz = FALSE)
@@ -209,7 +209,8 @@ vis_nw_data <- toVisNetworkData(g)
 
 # add a title to be displayed when mouse is over a node
 vis_nw_data$nodes$title <- sprintf('@%s (%s %s)', vis_nw_data$nodes$id,
-                                   vis_nw_data$nodes$personal.first_name, vis_nw_data$nodes$personal.last_name)
+                                   vis_nw_data$nodes$personal.first_name,
+                                   vis_nw_data$nodes$personal.last_name)
 head(vis_nw_data$nodes)
 
 # strip transparency from edge color because visNetwork can't handle it

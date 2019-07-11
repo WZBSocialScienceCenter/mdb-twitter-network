@@ -10,6 +10,11 @@ This repository contains R scripts for
 2. fetching the "following" list for those deputies with a Twitter account (i.e. which Twitter accounts does a deputy follow);
 3. processing and visualizing this data as network.
 
+See the following blog posts:
+
+- [A Twitter network of members of the 19th German Bundestag – part I](https://datascience.blog.wzb.eu/2019/07/11/a-twitter-network-of-members-of-the-19th-german-bundestag-part-i/)
+- [A Twitter network of members of the 19th German Bundestag – part II](https://datascience.blog.wzb.eu/2019/07/11/a-twitter-network-of-members-of-the-19th-german-bundestag-part-ii/)
+
 The respective downloaded and processed data also resides in the `data` directory.
 
 ## Data sources
@@ -46,3 +51,4 @@ Data and plot files are suffixed (`_XXX`) by the two points in time when the dat
 - `data/deputies_twitter_XXX.csv`: dataset of deputies data from [abgeordnetenwatch.de](https://www.abgeordnetenwatch.de) combined with Twitter user names (where listed on the profile page)
 - `data/deputies_twitter_friends_full_XXX.RDS`: RDS file (load with `readRDS()`) containing data frame that for each deputy Twitter user name contains information about her/his Twitter followings (aka "friends")
 - `data/deputies_twitter_friends_tmp_XXX.RDS`: tempory dataset that for each deputy Twitter user name contains the Twitter user IDs of her/his Twitter followings
+
